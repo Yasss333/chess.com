@@ -1,0 +1,61 @@
+Socket.io Initialization:
+  description: Establish WebSocket connection to the server using Socket.io
+  code:
+    - const socket = io();
+
+Chess Game Initialization:
+  description: Create an instance of the Chess class from the chess.js library to manage the game logic
+  code:
+    - const chess = new Chess();
+
+DOM Elements:
+  description: Select the HTML element with the ID "chessboard" to render the chessboard
+  code:
+    - const boardElement = document.querySelector("#chessboard");
+
+Drag and Drop:
+  description: Implement drag and drop functionality for moving chess pieces on the board
+  rules:
+    - Pieces are draggable only if it's the player's turn
+  events:
+    - dragstart
+    - dragend
+    - dragover
+    - drop
+  purpose: Handle drag and drop interactions
+
+Rendering the Board:
+  description: Generate the HTML representation of the chessboard based on the current game state
+  steps:
+    - Iterate over the board array
+    - Create square elements for each cell
+    - Create piece elements for occupied squares
+    - Append piece elements to square elements
+    - Flip the board for the black player's view
+
+Handling Moves:
+  description: Handle player moves when dragging and dropping pieces
+  process:
+    - Construct a move object containing source and target squares
+    - Use algebraic notation
+    - Emit a "move" event to the server via Socket.io
+
+Unicode Chess Pieces:
+  description: Return Unicode characters representing chess pieces
+  based_on: piece type
+
+Socket.io Event Handlers:
+  description: Listen for events from the server
+  events:
+    - player role assignment
+    - spectator role assignment
+    - board state updates
+    - opponent moves
+  behavior:
+    - Update local game state
+    - Render the board accordingly
+
+Initial Rendering:
+  description: Render the initial state of the chessboard
+  action:
+    - Call the renderBoard function
