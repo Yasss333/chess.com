@@ -4,88 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .chessboard {
-            display: grid;
-            grid-template-columns: repeat(8, minmax(0, 1fr));
-            grid-template-rows: repeat(8, minmax(0, 1fr));
-            width: 400px;
-            height: 400px;
-            transform: rotate(0deg);
-        }
+  /* ===== Chessboard Container ===== */
+.chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 420px;
+  height: 420px;
 
-        .piece.white {
-            color: white;
-            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 1));
-        }
+  border-radius: 12px;
+  overflow: hidden;
 
-        .piece.black {
-            color: rgb(4, 0, 0);
-        }
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.05);
 
-        .flipped {
-            transform: rotate(180deg);
-        }
+  background: #111;
+  transition: transform 0.3s ease;
+}
 
-        .square {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+/* ===== Board Flip ===== */
+.flipped {
+  transform: rotate(180deg);
+}
 
-        .square.light {
-            background-color: #f0d9b5;
-        }
+/* Rotate pieces back so they stay upright */
+.flipped .piece {
+  transform: rotate(180deg);
+}
 
-        .square.dark {
-            background-color: #b58863;
-        }
+/* ===== Squares ===== */
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
 
-        .piece {
-            font-size: 36px;
-            cursor: pointer;
-        }
+.square.light {
+  background-color: #f0d9b5;
+}
 
-        .piece.draggable {
-            cursor: grab;
-        }
+.square.dark {
+  background-color: #b58863;
+}
 
-        .dragging {
-            opacity: 0.5;
-        }
+/* Subtle hover for clarity */
+.square:hover {
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
 
-        /* Rotate pieces for black player */
-        .flipped .piece {
-            transform: rotate(180deg);
-        }
+/* ===== Pieces ===== */
+.piece {
+  font-size: 38px;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
 
-        .demo-toggle {
+.piece.white {
+  color: #ffffff;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.piece.black {
+  color: #1b1b1b;
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+/* Draggable feedback */
+.piece:active {
+  transform: scale(1.08);
+}
+
+.dragging {
+  opacity: 0.6;
+}
+
+/* ===== Demo Mode Toggle Button ===== */
+.demo-toggle {
   position: fixed;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  
-  padding: 10px 16px;
+
+  padding: 12px 18px;
   font-size: 14px;
   font-weight: 600;
+  letter-spacing: 0.3px;
 
-  background: #d27c7c;
-  color: #fff;
+  background: linear-gradient(135deg, #b84b4b, #e35d5d);
+  color: #ffffff;
+
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
 
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  transition: all 0.2s ease;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .demo-toggle:hover {
-  background: #eb5252;
+  background: linear-gradient(135deg, #e35d5d, #ff6b6b);
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.45);
 }
 
 .demo-toggle:active {
-  transform: translateY(-50%) scale(0.97);
+  transform: translateY(-50%) scale(0.95);
 }
+
 
     </style>
 <script src="https://cdn.tailwindcss.com"></script>
