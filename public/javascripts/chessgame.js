@@ -94,7 +94,20 @@ const handlemove = (source,target) => {
         to:`${String.fromCharCode(97+target.col)}${8-target.row}`,
     
     }
-    socket.emit('move',move)
+    
+    if (demoMode) {
+        // In demo mode, apply move locally without socket
+        const result = chess.move(move);
+        if (result) {
+            console.log("Demo move made:", move);
+            renderboard();
+        } else {
+            console.log("Invalid move in demo mode:", move);
+        }
+    } else {
+        // Normal mode: send through socket
+        socket.emit('move', move);
+    }
 };
 const getPieceUnicode = (piece) => {
     if(!piece)return ;
@@ -109,11 +122,17 @@ const getPieceUnicode = (piece) => {
 
 const demoBtn = document.getElementById("demoToggle");
 
-demoBtn.addEventListener("click", () => {
-  demoMode = !demoMode;
-  demoBtn.innerText = demoMode ? "Demo Mode: ON" : "Demo Mode: OFF";
-  renderboard();
-});
+if (demoBtn) {
+  console.log("Demo button found");
+  demoBtn.addEventListener("click", () => {
+    demoMode = !demoMode;
+    console.log("Demo mode toggled:", demoMode);
+    demoBtn.innerText = demoMode ? "Demo Mode: ON" : "Demo Mode: OFF";
+    renderboard();
+  });
+} else {
+  console.error("Demo button not found!");
+}
 
 
 socket.on("playerRole",function(role){
