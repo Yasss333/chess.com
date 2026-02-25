@@ -15,7 +15,6 @@ const io = socket(server);
 
 let chess = new Chess();
 let player = {};
-let currentPlayer = "W";
 
 app.set("view engine", "ejs");
 
@@ -59,13 +58,12 @@ io.on("connection", function (uniquesocket) {
    const result=chess.move(move);
    
    if(result){
-     currentPlayer=chess.turn();
      io.emit('move',move)
      io.emit('boardState',chess.fen())
    }
    else{
      console.log('invalid move ',move);
-     uniquesocket.emit('Invalid ',move)
+     uniquesocket.emit('invalidMove',move)
     }
     if(chess.inCheck()){
       io.emit('check',{
@@ -81,23 +79,21 @@ io.on("connection", function (uniquesocket) {
       })
 
       chess.reset();
-      delete player.white;
-      delete player.black;
+      io.emit("boardState", chess.fen());
     }
     if(chess.isDraw()){
-      io.emit('gameover',{
-        result:'draw'
+      io.emit('gameOver',{
+        result:'Draw'
       })
 
       chess.reset();
-      delete player.white;
-      delete player.black;
+      io.emit("boardState", chess.fen());
 
     }
 } catch (error) {
     console.log(error);
     
-    uniquesocket.emit('Invalid ',move)
+    uniquesocket.emit('invalidMove',move)
 }
 
 })

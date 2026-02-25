@@ -94,6 +94,61 @@
   background: #e15d5d;
 }
 
+.game-status {
+  position: fixed;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  z-index: 30;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #f3f4f6;
+  background: rgba(0, 0, 0, 0.7);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.game-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.game-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay-card {
+  min-width: 240px;
+  max-width: 90vw;
+  background: #111827;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  color: #f9fafb;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.overlay-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.overlay-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #e5e7eb;
+}
 
 
     </style>
@@ -102,6 +157,14 @@
 </head>
 <body>
     <button id="demoToggle" class="demo-toggle flex   ">Demo Mode: OFF</button>
+    <div id="gameStatus" class="game-status">White to move</div>
+
+    <div id="gameOverlay" class="game-overlay" aria-live="polite">
+      <div id="overlayCard" class="overlay-card">
+        <h2 id="overlayTitle" class="overlay-title">Game Over</h2>
+        <p id="overlaySubtitle" class="overlay-subtitle">Resetting board...</p>
+      </div>
+    </div>
 
   <div class="w-full h-screen  flex items-center justify-center  bg-zinc-900">
     <div class='chessboard w-96 h-96 bg-red-800'></div>
